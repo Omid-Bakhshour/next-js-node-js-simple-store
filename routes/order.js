@@ -72,6 +72,4 @@ router.get(
   })
 );
 
-// jkshdjdhsjdhk
-
 export default router;
