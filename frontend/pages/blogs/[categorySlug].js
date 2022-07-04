@@ -15,11 +15,7 @@ export default function Home({ blogData, postCategories }) {
 
         <div className="grid gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)]  min-h-screen ">
           {/* category desktop */}
-          <CategoryDesktop
-            postCategories={postCategories}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
+          <CategoryDesktop postCategories={postCategories} />
           {/* category mobile */}
           {/* sort desktop */}
           <SortBar />

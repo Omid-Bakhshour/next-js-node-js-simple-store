@@ -1,4 +1,3 @@
-import { useState } from "react";
 import axios from "axios";
 
 import PostList from "../../components/PostList";
@@ -6,7 +5,6 @@ import CategoryMobile from "../../components/CategoryMobile";
 import CategoryDesktop from "../../components/CategoryDesktop";
 import SortBar from "../../components/SortBar";
 export default function Home({ blogData, postCategories }) {
-  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="bg-gray-100 min-h-screen flex">
       <div className="container mx-auto  lg:max-w-screen-xl px-4 py-4 md:py-8  ">
@@ -14,11 +12,7 @@ export default function Home({ blogData, postCategories }) {
 
         <div className="grid gap-8 md:grid-cols-12 md:grid-rows-[60px_minmax(300px,_1fr)]   ">
           {/* category desktop */}
-          <CategoryDesktop
-            postCategories={postCategories}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
+          <CategoryDesktop postCategories={postCategories} />
           {/* sort desktop */}
           <SortBar />
           {/* blogs */}

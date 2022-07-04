@@ -1,7 +1,11 @@
 import { HiOutlineChevronDown as DownIcon } from "react-icons/hi";
+import { useState } from "react";
+
 import Link from "next/link";
 
-function CategoryDesktop({ postCategories, isOpen, setIsOpen }) {
+function CategoryDesktop({ postCategories }) {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <div className=" hidden md:block md:row-span-2 md:col-span-3">
       <div className="bg-white rounded-3xl overflow-hidden shadow-lg">
