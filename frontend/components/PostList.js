@@ -1,11 +1,7 @@
 import React from "react";
-import { BsBookmark as BookmarkEmptyIcon } from "react-icons/bs";
-import { BsFillBookmarkFill as BookmarkedIcon } from "react-icons/bs";
-import { BiCommentDetail as CommentIcon } from "react-icons/bi";
-import { AiOutlineHeart as LikeEmptyIcon } from "react-icons/ai";
-import { AiFillHeart as LikeIcon } from "react-icons/ai";
 import { BiTimeFive as TimeIcon } from "react-icons/bi";
 import Link from "next/link";
+import PostInteraction from "./PostInteraction";
 
 function PostList({ blogData }) {
   return blogData?.data?.docs?.map((item, index) => {
@@ -17,19 +13,27 @@ function PostList({ blogData }) {
       >
         {/* cover image */}
         <div className="aspect-w-16 aspect-h-9 w-full ">
-          <img
-            src={item?.coverImage}
-            className="  w-full h-full  object-center object-cover rounded-2xl"
-          />
+          <Link href={`posts/${item?.hashId}/${item?.slug}`}>
+            <a>
+              <img
+                src={item?.coverImage}
+                className="  w-full h-full  object-center object-cover rounded-2xl"
+              />
+            </a>
+          </Link>
         </div>
 
         {/* content */}
 
         <div className="bg-gray-100 dark:bg-slate-700 flex  flex-col justify-between flex-1 text-myGray-500 font-bold text-xl p-3 rounded-2xl w-full">
           {/* title */}
-          <h2 className="mb-5 block font-bold text-slate-800 hover:text-blue-600 dark:text-white dark:hover:text-sky-400">
-            {item?.title}
-          </h2>
+          <Link href={`posts/${item?.hashId}/${item?.slug}`}>
+            <a>
+              <h2 className="mb-5 block font-bold text-slate-800 hover:text-blue-600 dark:text-white dark:hover:text-sky-400">
+                {item?.title}
+              </h2>
+            </a>
+          </Link>
 
           <div className="w-full flex flex-col">
             {/* writer and tag */}
@@ -61,28 +65,7 @@ function PostList({ blogData }) {
             {/* like comment time */}
 
             <div className="flex  items-center text-xs justify-between">
-              <div className="flex items-center gap-x-2">
-                <button
-                  className="flex items-center bg-gray-200 transition duration-300 gap-x-1 p-0.5 rounded text-gray-500 dark:bg-slate-500
-                   dark:text-slate-300 dark:bg-opacity-30"
-                >
-                  <CommentIcon className="h-4 w-4 " />
-                  <span>{item?.commentsCount}</span>
-                </button>
-                <button
-                  className="flex items-end bg-red-100 hover:bg-red-500 transition duration-300  gap-x-1 p-0.5 hover:text-white  rounded
-                   text-red-500 dark:bg-opacity-10 dark:hover:bg-opacity-100 "
-                >
-                  <LikeEmptyIcon className="h-4 w-4" />
-                  <span>{item?.likesCount}</span>
-                </button>
-                <button
-                  className="flex items-center bg-blue-100 hover:bg-blue-500 transition duration-300 hover:text-white  gap-x-1 p-0.5
-                   rounded text-blue-500 dark:bg-opacity-10 dark:hover:bg-opacity-100 "
-                >
-                  <BookmarkEmptyIcon className="h-4 w-4  " />
-                </button>
-              </div>
+              <PostInteraction post={item} isSmall />
 
               <div className="flex items-center gap-x-1  font-bold text-gray-400 text-[10px]">
                 <TimeIcon />

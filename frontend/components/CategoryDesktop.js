@@ -1,6 +1,5 @@
 import { HiOutlineChevronDown as DownIcon } from "react-icons/hi";
 import { useState } from "react";
-
 import Link from "next/link";
 
 function CategoryDesktop({ postCategories }) {
