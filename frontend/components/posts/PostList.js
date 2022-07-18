@@ -3,13 +3,13 @@ import { BiTimeFive as TimeIcon } from "react-icons/bi";
 import Link from "next/link";
 import PostInteraction from "./PostInteraction";
 
-function PostList({ blogData }) {
-  return blogData?.data?.docs?.map((item, index) => {
+function PostList({ blogData, related }) {
+  return blogData?.map((item, index) => {
     return (
       <div
         key={index}
         className="col-span-6 md:col-span-3 lg:col-span-2 shadow-lg gap-3  bg-white flex flex-col items-center p-3 rounded-3xl 
-             dark:bg-slate-800 ring-1 ring-slate-900/5 md:max-h-[350px] "
+             dark:bg-slate-800 ring-1 ring-slate-900/5 md:max-h-[400px] lg:max-h-[380px]  "
       >
         {/* cover image */}
         <div className="aspect-w-16 aspect-h-9 w-full ">

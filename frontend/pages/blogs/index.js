@@ -17,7 +17,7 @@ export default function Home({ blogData, postCategories }) {
           <SortBar />
           {/* blogs */}
           <div className=" md:col-span-9 grid grid-cols-6 gap-8 relative ">
-            <PostList blogData={blogData} />
+            <PostList blogData={blogData?.data?.docs} />
           </div>
         </div>
       </div>

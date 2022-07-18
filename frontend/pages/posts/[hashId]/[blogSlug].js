@@ -4,19 +4,29 @@ import { AiOutlineLink as LinkIcon } from "react-icons/ai";
 import { BsBookmarkPlus as BookmarkIcon } from "react-icons/bs";
 
 import { BsBookmark as BookmarkEmptyIcon } from "react-icons/bs";
-import { BsFillBookmarkFill as BookmarkedIcon } from "react-icons/bs";
 import { BiCommentDetail as CommentIcon } from "react-icons/bi";
 import { AiOutlineHeart as LikeEmptyIcon } from "react-icons/ai";
-import { AiFillHeart as LikeIcon } from "react-icons/ai";
-import { BiTimeFive as TimeIcon } from "react-icons/bi";
 
 import { BsLinkedin as LinkedinIcon } from "react-icons/bs";
 import { BsTwitter as TwitterIcon } from "react-icons/bs";
 import { FaTelegramPlane as TelegramIcon } from "react-icons/fa";
 import { MdOutlineContentCopy as CopyIcon } from "react-icons/md";
-import PostInteraction from "../../../components/PostInteraction";
+import PostInteraction from "../../../components/posts/PostInteraction";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useState } from "react";
+import PostList from "../../../components/posts/PostList";
+import PostComments from "../../../components/PostComments/index";
 
 function blogDetail({ post }) {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyHandler = () => {
+    setIsCopied(true);
+
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
+  };
   return (
     <div className="  h-full  min-h-screen py-6 px-4 lg:px-0 bg-gray-50 relative  dark:text-slate-400  dark:bg-slate-900 ">
       <div className="flex">
@@ -49,13 +59,13 @@ function blogDetail({ post }) {
                   {post?.data?.author?.biography}
                 </span>
                 <div className="font-normal text-myGray-400 text-sm dark:text-slate-500">
-                  <div class="font-normal text-myGray-400 text-sm dark:text-slate-500">
+                  <div className="font-normal text-myGray-400 text-sm dark:text-slate-500">
                     <span>
                       {new Date(post?.data?.createdAt).toLocaleDateString(
                         "fa-IR"
                       )}
                     </span>
-                    <span class="mx-1"> •</span>
+                    <span className="mx-1"> •</span>
                     <span>
                       <span> خواندن</span>
                       <span className="mx-1">{post?.data?.readingTime}</span>
@@ -179,23 +189,65 @@ function blogDetail({ post }) {
           <div className="flex items-center justify-between md:gap-x-6 w-full md:w-auto">
             {/* share */}
             <div className="flex  items-center md:gap-x-4 gap-x-3 w-full ">
-              <LinkedinIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
-              <TwitterIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
-              <TelegramIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
+              <Link
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.NEXT_PUBLIC_DOMAIN_URL}/posts/${post?.data?.hashId}/${post?.data?.slug}`}
+              >
+                <a>
+                  <LinkedinIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
+                </a>
+              </Link>
+              <Link
+                href={`http://twitter.com/share?text=${post?.data?.title}&url=${process.env.NEXT_PUBLIC_DOMAIN_URL}/posts/${post?.data?.hashId}/${post?.data?.slug} `}
+              >
+                <a>
+                  <TwitterIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
+                </a>
+              </Link>
+              <Link
+                href={`https://t.me/share/url?url=${process.env.NEXT_PUBLIC_DOMAIN_URL}/posts/${post?.data?.hashId}/${post?.data?.slug}&text=${post?.data?.title}`}
+              >
+                <a>
+                  <TelegramIcon className="transition-all fill-gray-400 hover:fill-gray-600 cursor-pointer w-6 h-6" />
+                </a>
+              </Link>
             </div>
 
             {/* copy link */}
             <div className="relative">
-              <div
-                className="cursor-pointer rounded-full px-4 py-2 flex gap-x-2 items-center border w-[110px]
-                 border-gray-400 dark:border-slate-500 dark:text-slate-400 text-xs text-gray-700"
+              <CopyToClipboard
+                text={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/posts/${post?.data?.hashId}/${post?.data?.slug}`}
+                onCopy={copyHandler}
               >
-                <span>کپی لینک</span>
-                <CopyIcon className="w-4 h-4" />
-              </div>
+                <div
+                  className="cursor-pointer rounded-full px-4 py-2 flex gap-x-2 items-center border w-[110px]
+                 border-gray-400 dark:border-slate-500 dark:text-slate-400 text-xs text-gray-700"
+                >
+                  <span>کپی لینک</span>
+                  <CopyIcon className="w-4 h-4" />
+                </div>
+              </CopyToClipboard>
+              {isCopied && (
+                <span className="absolute left-0 top-full mt-1 bg-blue-500 text-white px-3 py-1 rounded-3xl">
+                  کپی شد !
+                </span>
+              )}
             </div>
           </div>
         </div>
+        <hr className="mb-8 dark:bg-slate-700 bg-gray-500 h-0.5 border-0"></hr>
+      </section>
+
+      <section className="mt-20 w-full mb-16 max-w-screen-xl mx-auto px-2 lg:px-0 ">
+        <h3 className="mb-10 font-black text-2xl md:text-3xl">پست های مشابه</h3>
+        <div className="grid grid-cols-6 gap-8 relative ">
+          <PostList blogData={post?.data?.related} />
+        </div>
+      </section>
+
+      <section className="mt-20 w-full mb-16 max-w-screen-xl mx-auto px-2 lg:px-0 ">
+        <h3 className="mb-10 font-black text-2xl md:text-3xl">نظرات</h3>
+
+        <PostComments post={post?.data} />
       </section>
     </div>
   );
